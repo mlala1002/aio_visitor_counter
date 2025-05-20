@@ -45,26 +45,19 @@
   </div>
 
   <script>
-    // 구글 Visualization API를 사용해 시트 데이터 가져오기
-    function fetchCellValue() {
-      const sheetId = '1nl5eDpYpDR7K6MDqDogQaWOxYvhgW_O0xTbYs4EBWIg';
-      const query = encodeURIComponent('SELECT C WHERE A IS NOT NULL LIMIT 1');
-      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=${query}&gid=1787985434`;
+    const url = "https://docs.google.com/spreadsheets/d/1nl5eDpYpDR7K6MDqDogQaWOxYvhgW_O0xTbYs4EBWIg/gviz/tq?tq=SELECT+C&range=C2";
 
-      fetch(url)
-        .then(res => res.text())
-        .then(text => {
-          const json = JSON.parse(text.match(/(?<=\().*(?=\);)/s)[0]);
-          const value = json.table.rows[0].c[0].v;
-          document.getElementById('sheetValue').textContent = value;
-        })
-        .catch(err => {
-          console.error(err);
-          document.getElementById('sheetValue').textContent = '불러오기 실패';
-        });
-    }
-
-    fetchCellValue();
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        const jsonData = JSON.parse(data.substr(47).slice(0, -2)); // Google Sheets 응답 특수 처리
+        const cellValue = jsonData.table.rows[0].c[0].v;
+        document.getElementById('cell-value').textContent = cellValue;
+      })
+      .catch(error => {
+        document.getElementById('cell-value').textContent = '불러오기 실패';
+        console.error('오류:', error);
+      });
   </script>
 </body>
 </html>
