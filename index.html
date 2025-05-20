@@ -21,26 +21,5 @@
     <iframe src="https://script.google.com/macros/s/AKfycbxUYu43f6upo4ttajI3OvLieLvS-GfQQGRSPUA_c_hV8Z1LMFE4wc6jH0l7DRFd7ldzBQ/exec"></iframe>
     <div class="cover" id="cell-value">Loading...</div>
   </div>
-
-  <script>
-    const url = "https://docs.google.com/spreadsheets/d/1nl5eDpYpDR7K6MDqDogQaWOxYvhgW_O0xTbYs4EBWIg/gviz/tq?tq=SELECT+C LIMIT 1 OFFSET 1";
-
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        try {
-          const json = JSON.parse(data.match(/(?<=setResponse\().*(?=\);)/s)[0]);
-          const value = json.table.rows[0].c[0].v;
-          document.getElementById('cell-value').textContent = value;
-        } catch (e) {
-          console.error("파싱 오류 발생:", e);
-          document.getElementById('cell-value').textContent = "값을 불러올 수 없습니다";
-        }
-      })
-      .catch(error => {
-        console.error("Fetch 실패:", error);
-        document.getElementById('cell-value').textContent = "연결 실패";
-      });
-  </script>
 </body>
 </html>
