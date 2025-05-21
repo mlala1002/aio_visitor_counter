@@ -4,41 +4,72 @@
   <meta charset="UTF-8" />
   <title>AIO - Notion Guide Visitor Counter</title>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; }
-    .container { position: relative; width: 100%; height: 100vh; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* 스크롤 제거 */
+      font-family: sans-serif;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
     iframe {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
     }
     .cover {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: white;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    #cell-value {
       font-size: 2rem;
-      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .label {
+      font-weight: bold;
+      color: #444;
+    }
+    .number {
+      color: #222;
     }
   </style>
 </head>
 <body>
-  <div id="cell-value">Loading...</div>
   <div class="container">
     <iframe src="https://script.google.com/macros/s/AKfycbxUYu43f6upo4ttajI3OvLieLvS-GfQQGRSPUA_c_hV8Z1LMFE4wc6jH0l7DRFd7ldzBQ/exec"></iframe>
-    <div class="cover"></div>
+    <div class="cover">
+      <div id="cell-value">
+        <span class="label">Today's Visit:</span>
+        <span class="number">Loading...</span>
+      </div>
+    </div>
   </div>
+
   <script>
     fetch("https://script.google.com/macros/s/AKfycbxTiFJwfiPbhd844D2Vp1WDx1C62d17fNMPzcfLb6lCFw84aqu-lEwShAxHNea5-orzog/exec?mode=get")
       .then(res => res.json())
       .then(data => {
-        document.getElementById("cell-value").innerText = data.value;
+        document.querySelector("#cell-value .number").innerText = data.value;
       })
       .catch(err => {
-        document.getElementById("cell-value").innerText = "Fail";
+        document.querySelector("#cell-value .number").innerText = "Fail";
         console.error(err);
       });
   </script>
